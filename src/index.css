@@ -27,14 +27,22 @@ html, body, #root, .app, main {
 
 /* Mobile: allow natural document flow and scrolling */
 @media (max-width: 768px) {
-    html, body, #root, .app, main {
-        height: auto;
-        min-height: 100%;
+    html, body {
+        height: 100vh;
+        overflow: hidden; /* Prevent body scroll on mobile */
+        position: fixed;
+        width: 100%;
+    }
+    
+    #root, .app, main {
+        height: 100vh;
+        overflow: hidden;
     }
     
     /* Prevent scroll chaining - when article finishes scrolling, don't scroll parent */
     body {
         overscroll-behavior-y: contain;
+        touch-action: none; /* Prevent default touch scroll on body */
     }
 }
 

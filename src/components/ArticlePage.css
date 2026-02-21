@@ -628,12 +628,14 @@
         right: 0;
         bottom: 0;
         height: 100vh;
+        width: 100vw;
         overflow-y: auto;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
         overscroll-behavior: contain;
-        /* Prevent body scroll when scrolling article */
+        /* Allow vertical scrolling only on this container */
         touch-action: pan-y;
+        z-index: 1;
     }
 
     /* Hide scrollbar on article-page for cleaner look */
@@ -651,6 +653,7 @@
     .article-container {
         overflow: visible;
         -webkit-overflow-scrolling: touch;
+        position: relative;
     }
     
     .back-to-blog {
