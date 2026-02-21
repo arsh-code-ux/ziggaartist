@@ -621,18 +621,6 @@
 @media (max-width: 768px) {
     .article-page {
         padding: 80px 0 60px;
-        overflow: hidden;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .article-container {
-        flex: 1;
-        overflow-y: auto;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain;
     }
     
     .back-to-blog {
@@ -736,18 +724,6 @@
 @media (max-width: 640px) {
     .article-page {
         padding: 70px 0 50px;
-        overflow: hidden;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .article-container {
-        flex: 1;
-        overflow-y: auto;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain;
     }
 
     .back-to-blog {
@@ -865,18 +841,6 @@
 @media (max-width: 480px) {
     .article-page {
         padding: 65px 0 45px;
-        overflow: hidden;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .article-container {
-        flex: 1;
-        overflow-y: auto;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain;
     }
 
     .back-to-blog {

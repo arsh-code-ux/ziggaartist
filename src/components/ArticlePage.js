@@ -552,7 +552,6 @@ const ArticlePage = () => {
     const article = articleContent[id];
     const [showScrollTop, setShowScrollTop] = useState(false);
     const articleRef = useRef(null);
-    const containerRef = useRef(null);
 
     // Get related articles (excluding current article)
     const relatedArticles = Object.entries(articleContent)
@@ -564,41 +563,11 @@ const ArticlePage = () => {
         window.scrollTo(0, 0);
         
         const handleScroll = () => {
-            // Check if mobile and use container scroll instead of window scroll
-            const isMobile = window.innerWidth <= 768;
-            if (isMobile && containerRef.current) {
-                setShowScrollTop(containerRef.current.scrollTop > 400);
-            } else {
-                setShowScrollTop(window.scrollY > 400);
-            }
+            setShowScrollTop(window.scrollY > 400);
         };
         
-        // Attach to appropriate scroll target based on screen size
-        const isMobile = window.innerWidth <= 768;
-        if (isMobile && containerRef.current) {
-            containerRef.current.addEventListener('scroll', handleScroll);
-        } else {
-            window.addEventListener('scroll', handleScroll);
-        }
-        
-        // Prevent body scroll on mobile
-        if (isMobile) {
-            document.body.style.overflow = 'hidden';
-            document.body.style.position = 'fixed';
-            document.body.style.width = '100%';
-        }
-        
-        return () => {
-            if (isMobile && containerRef.current) {
-                containerRef.current.removeEventListener('scroll', handleScroll);
-            } else {
-                window.removeEventListener('scroll', handleScroll);
-            }
-            // Restore body scroll
-            document.body.style.overflow = '';
-            document.body.style.position = '';
-            document.body.style.width = '';
-        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, [id]);
 
     // Line-by-line reveal on mount for article header and body elements
@@ -631,12 +600,7 @@ const ArticlePage = () => {
     }, [id]);
 
     const scrollToTop = () => {
-        const isMobile = window.innerWidth <= 768;
-        if (isMobile && containerRef.current) {
-            containerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const getAuthorInitials = (name) => {
@@ -672,7 +636,7 @@ const ArticlePage = () => {
                 ))}
             </aside>
 
-            <div className="article-container" ref={containerRef}>
+            <div className="article-container">
                 <Link to="/" className="back-to-blog">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M19 12H5M12 19l-7-7 7-7"/>
