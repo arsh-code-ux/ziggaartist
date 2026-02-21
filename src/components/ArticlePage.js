@@ -552,6 +552,7 @@ const ArticlePage = () => {
     const article = articleContent[id];
     const [showScrollTop, setShowScrollTop] = useState(false);
     const articleRef = useRef(null);
+    const articlePageRef = useRef(null);
 
     // Get related articles (excluding current article)
     const relatedArticles = Object.entries(articleContent)
@@ -560,14 +561,31 @@ const ArticlePage = () => {
         .slice(0, 8); // Show up to 8 related articles (4 per side)
 
     useEffect(() => {
+        // Scroll to top on article change
+        if (articlePageRef.current) {
+            articlePageRef.current.scrollTop = 0;
+        }
         window.scrollTo(0, 0);
         
         const handleScroll = () => {
-            setShowScrollTop(window.scrollY > 400);
+            // Check both window scroll (desktop) and article-page scroll (mobile)
+            const scrollY = window.scrollY || (articlePageRef.current?.scrollTop || 0);
+            setShowScrollTop(scrollY > 400);
         };
         
+        // Listen to both window scroll and article-page scroll
         window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        const articlePage = articlePageRef.current;
+        if (articlePage) {
+            articlePage.addEventListener('scroll', handleScroll);
+        }
+        
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            if (articlePage) {
+                articlePage.removeEventListener('scroll', handleScroll);
+            }
+        };
     }, [id]);
 
     // Line-by-line reveal on mount for article header and body elements
@@ -600,6 +618,10 @@ const ArticlePage = () => {
     }, [id]);
 
     const scrollToTop = () => {
+        // Scroll both window and article-page container
+        if (articlePageRef.current) {
+            articlePageRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -609,7 +631,7 @@ const ArticlePage = () => {
 
     if (!article) {
         return (
-            <div className="article-page">
+            <div className="article-page" ref={articlePageRef}>
                 <div className="article-container">
                     <div className="article-not-found">
                         <h1>Article Not Found</h1>
@@ -622,7 +644,7 @@ const ArticlePage = () => {
     }
 
     return (
-        <div className="article-page">
+        <div className="article-page" ref={articlePageRef}>
             {/* Left sidebar with related articles */}
             <aside className="article-sidebar article-sidebar-left">
                 <h4 className="sidebar-title">More Articles</h4>
