@@ -621,13 +621,30 @@
 @media (max-width: 768px) {
     .article-page {
         padding: 80px 0 60px;
-        /* Mobile: let article-page be the main scroll container */
-        min-height: 100vh;
-        height: auto;
+        /* Mobile: Make article-page a fixed viewport height scroll container */
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100vh;
         overflow-y: auto;
         overflow-x: hidden;
         -webkit-overflow-scrolling: touch;
         overscroll-behavior: contain;
+        /* Prevent body scroll when scrolling article */
+        touch-action: pan-y;
+    }
+
+    /* Hide scrollbar on article-page for cleaner look */
+    .article-page::-webkit-scrollbar {
+        width: 0;
+        display: none;
+    }
+    
+    .article-page {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
     }
 
     /* Ensure article content scrolls within the page, not triggering body scroll */
